@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -6,6 +5,14 @@
 #define RIGHTX 10
 #define UPY -10
 #define DOWNY 10
+/**
+ * @brief Returns the string name of an SFML keyboard key.
+ *
+ * Converts an `sf::Keyboard::Key` value to its corresponding string representation. If the key is not recognized, returns "Unknown".
+ *
+ * @param key The SFML keyboard key to convert.
+ * @return std::string The name of the key, or "Unknown" if not recognized.
+ */
 std::string getKeyName(sf::Keyboard::Key key) {
     switch (key) {
         case sf::Keyboard::Key::A: return "A";
@@ -112,12 +119,24 @@ std::string getKeyName(sf::Keyboard::Key key) {
     }
 }
 
+/**
+ * @brief Renders the current frame by drawing the sprite onto the window.
+ *
+ * Clears the window, draws the provided sprite, and displays the updated frame.
+ */
 void renderStep(sf::RenderWindow *currentWindow, sf::Sprite *sprite) {
     (*currentWindow).clear();
     (*currentWindow).draw((*sprite));
     (*currentWindow).display();
 }
 
+/**
+ * @brief Entry point for the SFML sprite movement application.
+ *
+ * Creates a 1920x1080 window, loads an image as a sprite, and allows the user to move the sprite within the window using the arrow keys. The Escape key closes the window. The sprite's movement is constrained to remain within the window boundaries.
+ *
+ * @return int Returns -1 if the image file fails to load, 0 if the texture fails to load, or 0 on normal exit.
+ */
 int main() {
     auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CMake SFML Project");
     window.setFramerateLimit(144);
