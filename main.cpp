@@ -48,30 +48,19 @@ int main() {
             } else if(event->is<sf::Event::KeyPressed>()) {
                 auto keyEvent = event->getIf<sf::Event::KeyPressed>();
                 sf::FloatRect bounds = sprite.getGlobalBounds();
+                sf::Vector2 movement(0.0f, 0.0f);
                 if(keyEvent->code == sf::Keyboard::Key::Left) {
-                    sf::Vector2<float> leftTransform(MOVE_LEFT, 0);
-                    if(bounds.position.x + leftTransform.x < 0) {
-                        leftTransform.x = 0;
-                    }
-                    sprite.move(leftTransform);
+                    movement.x = std::max(MOVE_LEFT, -bounds.position.x);
                 } else if(keyEvent->code == sf::Keyboard::Key::Right) {
-                    sf::Vector2<float> rightTransform(MOVE_RIGHT, 0);
-                    if(bounds.position.x + bounds.size.x + rightTransform.x > (float) window.getSize().x) {
-                        rightTransform.x = 0;
-                    }
-                    sprite.move(rightTransform);
+                    movement.x = std::min(MOVE_RIGHT, window.getSize().x - bounds.position.x - bounds.size.x);
                 } else if(keyEvent->code == sf::Keyboard::Key::Up) {
-                    sf::Vector2<float> upTransform(0, MOVE_UP);
-                    if(bounds.position.y + upTransform.y < 0) {
-                        upTransform.y = 0;
-                    }
-                    sprite.move(upTransform);
+                    movement.y = std::max(MOVE_UP, -bounds.position.y);
                 } else if(keyEvent->code == sf::Keyboard::Key::Down) {
-                    sf::Vector2<float> downTransform(0, MOVE_DOWN);
-                    if(bounds.position.y + bounds.size.y + downTransform.y > (float) window.getSize().y) {
-                        downTransform.y = 0;
-                    }
-                    sprite.move(downTransform);
+                    movement.y = std::min(MOVE_DOWN, window.getSize().y - bounds.position.y - bounds.size.y);
+                }
+
+                if(movement.x != 0.0f || movement.y != 0.0f) {
+                    sprite.move(movement);
                 }
 
 
